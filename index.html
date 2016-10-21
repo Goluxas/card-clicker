@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>Card Clicker</title>
+	</head>
+
+	<body>
+		<h1>Card Clicker</h1>
+
+		<div id="deck-module">
+			<div id="deck">
+				<script id='deck-template' type='text/template'>
+					<h1>[{{decksize}}]</h1>
+				</script>
+			</div>
+			<div id="faceup">
+				<script id='card-template' type='text/template'>
+					<div>{{card}}</card>
+				</script>
+			</div>
+		</div>
+
+		<div id="resources">
+			<ul id="mana-reserves">
+				<script id='mana-template' type='text/template'>
+					{{#mana}}
+						<div>{{color}}: {{total}}</div>
+					{{/mana}}
+				</script>
+			</ul>
+		</div>
+
+		<div id="hand">
+		</div>
+
+		<!-- Script imports at the end -->
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+		<script src="game.js"></script>
+	</body>
+</html>

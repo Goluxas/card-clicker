@@ -1,0 +1,17 @@
+== Page Layout ==
+
+Card Clicker
+
+[Deck] [Face-up Card]
+
+[Resources]
+
+[Hand]
+
+== End Layout ==
+
+Click the Deck to draw a card (puts it in Face-Up Card position and executes effects)
+
+Resources lists mana reserves
+
+Hand contains cards with cost, if any
