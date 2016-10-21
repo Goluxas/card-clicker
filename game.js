@@ -38,4 +38,17 @@ var deck = {
 	},
 };
 
-deck.init();
+var card = {
+	name: '',
+	onDraw: function() {},
+};
+
+var game = {
+	init: function() {
+		this.deck = deck;
+
+		this.deck.init();
+	},
+};
+
+game.init();
