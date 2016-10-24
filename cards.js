@@ -63,6 +63,12 @@ var cards = (function() {
 		return cards[id];
 	}
 
+	// Handle card drawing logic
+	Mediator.on('drewCard', drewCard)
+	function drewCard(id) {
+		getCard(id).onDraw();
+	}
+
 	return {
 		max_id: 4,
 		getCard: getCard,
