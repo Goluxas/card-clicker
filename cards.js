@@ -71,6 +71,8 @@ var cards = (function() {
 
 	return {
 		max_id: 4,
+		land_min_id: 0,
+		land_max_id: 4,
 		getCard: getCard,
 	}
 

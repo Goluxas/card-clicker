@@ -34,6 +34,7 @@ var Deck = {
 		// Bind Mediator events
 		Mediator.on('render', this.render.bind(this));
 		Mediator.on('drawRequestApproved', this.drawCard.bind(this));
+		Mediator.on('addCards', this.addCards.bind(this));
 	},
 
 	render: function() {
@@ -55,7 +56,7 @@ var Deck = {
 	fillDeck: function() {
 		this.decklist = [];
 		for (var i=0; i < this.size; i++) {
-			this.decklist.push( this.getRandomInt(0, cards.max_id) );
+			this.decklist.push( this.getRandomInt(0, cards.max_id+1) );
 		}
 		this.deckstate = this.decklist.slice(0); // clone the decklist to the deckstate
 	},
@@ -81,6 +82,12 @@ var Deck = {
 			this.faceupCard = card;
 			Mediator.emit('drewCard', this.faceupCard);
 		}
+		Mediator.emit('render');
+	},
+
+	addCards: function(new_cards) {
+		this.deckstate = this.deckstate.concat(new_cards);
+		this.shuffleDeck();
 		Mediator.emit('render');
 	},
 };
