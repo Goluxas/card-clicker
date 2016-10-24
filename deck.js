@@ -77,6 +77,7 @@ var Deck = {
 		var card = this.deckstate.shift();
 		if (card !== undefined) {
 			this.faceupCard = card;
+			cards.getCard(this.faceupCard).onDraw();
 		}
 		Mediator.emit('render');
 	},
