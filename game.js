@@ -18,8 +18,10 @@ var Game = (function(){
 	$time = $('#time');
 	time_template = $time.find('#time-ticks').html();
 	
+	// bind events
 	Mediator.on('render', render);
 	Mediator.on('drewResource', addResource);
+	Mediator.on('drewCard', passTime);
 
 	// Draw the resource totals
 	function render() {
@@ -38,6 +40,10 @@ var Game = (function(){
 	function addResource(color) {
 		resources[color] += 1;
 		Mediator.emit('render');
+	}
+
+	function passTime() {
+		time_left--;
 	}
 
 	Mediator.emit('render');
