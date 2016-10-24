@@ -1,54 +1,21 @@
-var deck = {
-	init: function() {
-		this.fillDeck();
-		this.faceupCard = 'blank';
+var Game = (function(){
 
-		this.cacheDom();
-		this.bindEvents();
-		this.render();
-	},
-	cacheDom: function() {
-		this.$el = $("#deck-module");
-		this.$deck = this.$el.find('#deck');
-		this.$faceup = this.$el.find('#faceup');
+	var deck = Deck.create({size: 10});
+	var resources = {
+		white: 0,
+		blue: 0,
+		red: 0,
+		black: 0,
+		green: 0,
+	};
+	
+	Mediator.on('drewResource', addResource);
 
-		this.decktemplate = this.$deck.find('#deck-template').html();;
-	},
-	bindEvents: function() {
-		this.$deck.on('click', this.drawCard.bind(this));
-	},
-	render: function() {
-		this.$deck.html( Mustache.render(this.decktemplate, {decksize: this.deck.length}) );
-		this.$faceup.text( this.faceupCard );
-	},
+	function addResource(color) {
+		resources[color] += 1;
+		Mediator.emit('render');
+	}
 
-	// private helpers
-	fillDeck: function() {
-		this.deck = ['plains', 'mountain', 'island']
-	},
+	Mediator.emit('render');
 
-	// exposed api
-	drawCard: function() {
-		// shift() is the same as pop() but removes from the front of the list
-		var card = this.deck.shift();
-		if (card !== undefined) {
-			this.faceupCard = card;
-		}
-		this.render();
-	},
-};
-
-var card = {
-	name: '',
-	onDraw: function() {},
-};
-
-var game = {
-	init: function() {
-		this.deck = deck;
-
-		this.deck.init();
-	},
-};
-
-game.init();
+})();
