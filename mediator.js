@@ -15,6 +15,11 @@ var Mediator = {
 		this.events[eventName] = this.events[eventName] || [];
 		this.events[eventName].push(fn);
 	},
+	bind: function($obj, jqEvent, medEvent, data) {
+		$obj.on(jqEvent, function() {
+			Mediator.emit(medEvent, data);
+		});
+	},
 	emit: function(eventName, data) {
 		if (this.events[eventName]) {
 			this.events[eventName].forEach(function(fn) {

@@ -22,6 +22,7 @@ var Game = (function(){
 	Mediator.on('render', render);
 	Mediator.on('drewResource', addResource);
 	Mediator.on('drewCard', passTime);
+	Mediator.on('drawRequest', checkTime);
 
 	// Draw the resource totals
 	function render() {
@@ -44,6 +45,12 @@ var Game = (function(){
 
 	function passTime() {
 		time_left--;
+	}
+
+	function checkTime(event) {
+		if (time_left > 0) {
+			Mediator.emit(event);
+		}
 	}
 
 	Mediator.emit('render');

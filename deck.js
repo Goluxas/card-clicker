@@ -1,3 +1,4 @@
+// Handles the deck, shuffling, drawing cards, displaying faceup card
 var Deck = {
 	size: 0,
 	decklist: [], // All cards in the deck, regardless of state (in deck, in hand, drawn, discarded, etc)
@@ -28,10 +29,11 @@ var Deck = {
 	},
 	bindEvents: function() {
 		// Bind DOM events
-		this.$deck.on('click', this.drawCard.bind(this));
+		Mediator.bind(this.$deck, 'click', 'drawRequest', 'drawRequestApproved');
 
 		// Bind Mediator events
 		Mediator.on('render', this.render.bind(this));
+		Mediator.on('drawRequestApproved', this.drawCard.bind(this));
 	},
 
 	render: function() {
