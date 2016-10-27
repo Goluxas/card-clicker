@@ -15,3 +15,28 @@ Click the Deck to draw a card (puts it in Face-Up Card position and executes eff
 Resources lists mana reserves
 
 Hand contains cards with cost, if any
+
+
+== Card Ideas ==
+
+Types:
+	Enchantments
+	Lands
+		When you draw a land, 
+	Creatures
+	Artifacts?
+	Spells
+	On-Draw One-offs
+		Tap
+		Shuffle
+		Encounters
+			Enemy creatures
+			Challenges
+			etc
+
+
+When you draw an Encounter, time starts
+You have until time runs out to prepare for it
+When time runs out, actions are executed
+If you beat the Encounter you get a prize
+If you lose, the Encounted dictates the cost

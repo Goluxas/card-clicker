@@ -33,7 +33,7 @@ var cantrips = (function() {
 		cost: 'U',
 		bindEvents: function() {
 			$button = $spells.find('#rewind-time');
-			Mediator.bind($button, 'click', 'costCheck', {cost: this.cost, callback: this.effect});
+			Mediator.bind($button, 'click', 'checkCost', {cost: this.cost, callback: this.effect});
 		},
 		effect: function() {
 			Mediator.emit('addTime', 3);
@@ -45,7 +45,7 @@ var cantrips = (function() {
 		cost: 'G',
 		bindEvents: function() {
 			$button = $spells.find('#rampant-growth');
-			Mediator.bind($button, 'click', 'costCheck', {cost: this.cost, callback: this.effect});
+			Mediator.bind($button, 'click', 'checkCost', {cost: this.cost, callback: this.effect});
 		},
 		effect: function() {
 			// Adds 3 random lands to the deck
