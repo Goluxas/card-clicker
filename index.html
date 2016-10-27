@@ -27,11 +27,20 @@
 
 		<div id="resources">
 			<h2>Resources</h2>
+			<h3>Mana Pool</h3>
 			<ul id="mana-reserves">
 				<script id='mana-template' type='text/template'>
 					{{#mana}}
 						<li>{{color}}: {{total}}</li>
 					{{/mana}}
+				</script>
+			</ul>
+			<h3>Lands</h3>
+			<ul id="lands">
+				<script id="land-template" type='text/template'>
+					{{#land}}
+						<li>{{name}}: {{count}}</li>
+					{{/land}}
 				</script>
 			</ul>
 		</div>

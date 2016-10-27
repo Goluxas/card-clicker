@@ -1,5 +1,9 @@
 var cards = (function() {
 
+	// Bind events
+	// Handle card drawing logic
+	Mediator.on('drewCard', drewCard)
+
 	// Base card class
 	var Card = {
 		name: 'cardname',
@@ -20,57 +24,54 @@ var cards = (function() {
 	// Individual card types
 	
 	// Resources
-	var plains = Card.create({
+	var Land = Card.create({ // ABSTRACT - do not instantiate
+		onDraw: function() {
+			Mediator.emit('drewResource', this.name);
+		}
+	});
+	var plains = Land.create({
 		name: 'Plains',
-		onDraw: function() {
-			Mediator.emit('drewResource', 'white');
-		}
 	});
-	var swamp = Card.create({
+	var swamp = Land.create({
 		name: 'Swamp',
-		onDraw: function() {
-			Mediator.emit('drewResource', 'black');
-		}
 	});
-	var island = Card.create({
+	var island = Land.create({
 		name: 'Island',
-		onDraw: function() {
-			Mediator.emit('drewResource', 'blue');
-		}
 	});
-	var mountain = Card.create({
+	var mountain = Land.create({
 		name: 'Mountain',
-		onDraw: function() {
-			Mediator.emit('drewResource', 'red');
-		}
 	});
-	var forest = Card.create({
+	var forest = Land.create({
 		name: 'Forest',
+	});
+
+	// Draw Effects
+	var tap = Card.create({
+		name: 'Tap',
 		onDraw: function() {
-			Mediator.emit('drewResource', 'green');
+			Mediator.emit('tap');
 		}
 	});
 
-	var cards = {
+	var card_list = {
 		0: plains,
 		1: swamp,
 		2: island,
 		3: mountain,
 		4: forest,
+		5: tap,
 	}
 
 	function getCard(id) {
-		return cards[id];
+		return card_list[id];
 	}
 
-	// Handle card drawing logic
-	Mediator.on('drewCard', drewCard)
 	function drewCard(id) {
 		getCard(id).onDraw();
 	}
 
 	return {
-		max_id: 4,
+		max_id: Object.keys(card_list).length-1,
 		land_min_id: 0,
 		land_max_id: 4,
 		getCard: getCard,

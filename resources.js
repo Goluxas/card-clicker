@@ -1,10 +1,10 @@
 var resources = (function() {
 	var lands = {
-		islands: 0,
-		forests: 0,
-		mountains: 0,
-		plains: 0,
-		swamps: 0
+		blue: 0,
+		green: 0,
+		red: 0,
+		white: 0,
+		black: 0
 	};
 
 	var mana = {
@@ -17,13 +17,16 @@ var resources = (function() {
 
 	// cache DOM
 	$resources = $('#resources');
-	$mana_list = $resources.find('ul');
+	$mana_list = $resources.find('#mana-reserves');
 	mana_template = $resources.find('#mana-template').html();
+	$land_list = $resources.find('#lands');
+	land_template = $resources.find('#land-template').html();
 	
 	// bind Events
 	Mediator.on('render', render);
 	Mediator.on('drewResource', addResource);
 	Mediator.on('checkCost', checkCost);
+	Mediator.on('tap', tap);
 
 	function render() {
 		var mana_display = []
@@ -33,10 +36,34 @@ var resources = (function() {
 			}
 		});
 		$mana_list.html( Mustache.render(mana_template, {mana: mana_display}) );
+
+		var land_display = []
+		Object.keys(lands).forEach(function(key) {
+			if (lands[key] > 0) {
+				land_display.push({name: key, count: lands[key]});
+			}
+		});
+		$land_list.html( Mustache.render(land_template, {land: land_display}) );
 	}
 
-	function addResource(color) {
+	function addResource(res) {
+		var color = '';
+
+		if (res == 'Island') {
+			color = 'blue';
+		} else if (res == 'Mountain') {
+			color = 'red';
+		} else if (res == 'Forest') {
+			color = 'green';
+		} else if (res == 'Plains') {
+			color = 'white';
+		} else if (res == 'Swamp') {
+			color = 'black';
+		}
+
+		lands[color] += 1;
 		mana[color] += 1;
+
 		Mediator.emit('render');
 	}
 	
@@ -84,6 +111,14 @@ var resources = (function() {
 			});
 			callback();
 		}
+	}
+
+	function tap() {
+		Object.keys(lands).forEach(function(key) {
+			mana[key] += lands[key];
+		});
+
+		Mediator.emit('render');
 	}
 
 })();
