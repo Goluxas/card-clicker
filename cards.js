@@ -53,6 +53,15 @@ var cards = (function() {
 		}
 	});
 
+	// Creatures
+	var rabidSquirrel = Card.create({
+		name: 'Rabid Squirrel',
+		cost: 'RR',
+		onDraw: function() {
+			Mediator.emit('addToHand', 6);
+		}
+	});
+
 	var card_list = {
 		0: plains,
 		1: swamp,
@@ -60,6 +69,7 @@ var cards = (function() {
 		3: mountain,
 		4: forest,
 		5: tap,
+		6: rabidSquirrel,
 	}
 
 	function getCard(id) {

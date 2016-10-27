@@ -46,6 +46,14 @@
 		</div>
 
 		<div id="hand">
+			<h2>Hand</h2>
+			<ul>
+				<script id='hand-template' type='text/template'>
+					{{#card}}
+						<li>{{name}} - {{cost}}</li>
+					{{/card}}
+				</script>
+			</ul>
 		</div>
 
 		<div id="spells">
@@ -67,6 +75,7 @@
 		<script src="cards.js"></script>
 		<script src="cantrips.js"></script>
 		<script src="resources.js"></script>
+		<script src="hand.js"></script>
 		<script src="game.js"></script>
 	</body>
 </html>
