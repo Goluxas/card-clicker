@@ -3,6 +3,7 @@ var cards = (function() {
 	// Bind events
 	// Handle card drawing logic
 	Mediator.on('drewCard', drewCard)
+	Mediator.on('castCard', castCard)
 
 	// Base card class
 	var Card = {
@@ -30,23 +31,29 @@ var cards = (function() {
 		}
 	});
 	var plains = Land.create({
+		id: 0,
 		name: 'Plains',
 	});
 	var swamp = Land.create({
+		id: 1,
 		name: 'Swamp',
 	});
 	var island = Land.create({
+		id: 2,
 		name: 'Island',
 	});
 	var mountain = Land.create({
+		id: 3,
 		name: 'Mountain',
 	});
 	var forest = Land.create({
+		id: 4,
 		name: 'Forest',
 	});
 
 	// Draw Effects
 	var tap = Card.create({
+		id: 5,
 		name: 'Tap',
 		onDraw: function() {
 			Mediator.emit('tap');
@@ -54,12 +61,23 @@ var cards = (function() {
 	});
 
 	// Creatures
-	var rabidSquirrel = Card.create({
+	var Creature = Card.create({ // ABSTRACT - do not instantiate
+		onDraw: function() {
+			Mediator.emit('addToHand', this.id);
+		},
+		onCast: function() {
+			Mediator.emit('removeFromHand', this.id);
+			Mediator.emit('addToBattlefield', this.id);
+			Mediator.emit('render');
+		}
+	});
+
+	var rabidSquirrel = Creature.create({
+		id: 6,
 		name: 'Rabid Squirrel',
 		cost: 'RR',
-		onDraw: function() {
-			Mediator.emit('addToHand', 6);
-		}
+		attack: 1,
+		hp: 1,
 	});
 
 	var card_list = {
@@ -78,6 +96,10 @@ var cards = (function() {
 
 	function drewCard(id) {
 		getCard(id).onDraw();
+	}
+
+	function castCard(id) {
+		getCard(id).onCast();
 	}
 
 	return {

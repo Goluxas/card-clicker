@@ -25,6 +25,17 @@
 			</div>
 		</div>
 
+		<div id="battlefield">
+			<h2>Battlefield</h2>
+			<ul>
+				<script id='battlefield-template' type='text/template'>
+					{{#creature}}
+						<li>{{name}} - {{attack}}/{{hp}}</li>
+					{{/creature}}
+				</script>
+			</ul>
+		</div>
+
 		<div id="resources">
 			<h2>Resources</h2>
 			<h3>Mana Pool</h3>
@@ -76,6 +87,7 @@
 		<script src="cantrips.js"></script>
 		<script src="resources.js"></script>
 		<script src="hand.js"></script>
+		<script src="battlefield.js"></script>
 		<script src="game.js"></script>
 	</body>
 </html>
