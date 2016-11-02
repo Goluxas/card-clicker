@@ -67,7 +67,7 @@ var cards = (function() {
 		},
 		onCast: function() {
 			Mediator.emit('removeFromHand', this.id);
-			Mediator.emit('addToBattlefield', this.id);
+			Mediator.emit('addToArmy', this.id);
 			Mediator.emit('render');
 		}
 	});

@@ -27,8 +27,14 @@
 
 		<div id="battlefield">
 			<h2>Battlefield</h2>
+			<div>
+				<script id='encounter-template' type='text/template'>
+					{{encounter}}
+				</script>
+			</div>
+			<h3>Army</h3>
 			<ul>
-				<script id='battlefield-template' type='text/template'>
+				<script id='army-template' type='text/template'>
 					{{#creature}}
 						<li>{{name}} - {{attack}}/{{hp}}</li>
 					{{/creature}}

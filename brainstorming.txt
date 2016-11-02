@@ -40,3 +40,7 @@ You have until time runs out to prepare for it
 When time runs out, actions are executed
 If you beat the Encounter you get a prize
 If you lose, the Encounted dictates the cost
+
+
+Deck is infinite, progress is gated by encounters
+Next X cards are predetermined on a rolling basis (draw a card, a new predetermined card is added to the end)
