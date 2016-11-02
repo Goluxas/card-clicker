@@ -29,7 +29,12 @@
 			<h2>Battlefield</h2>
 			<div>
 				<script id='encounter-template' type='text/template'>
-					{{encounter}}
+					<h3>{{enc.name}}</h3>
+					Condition: {{enc.condition}}<br />
+					{{#ticks}}X {{/ticks}}<br />
+					<br />
+					Reward: {{enc.reward}}<br />
+					Penalty: {{enc.penalty}}<br />
 				</script>
 			</div>
 			<h3>Army</h3>
