@@ -97,7 +97,7 @@ var cards = (function() {
 				reward: 'Gain 1 Mountain, Tap all Mountains',
 				penalty: 'Lose half of pooled Red Mana',
 			},
-			time_left: 5,
+			time_limit: 5,
 			engage: function(army) {
 				// How the hell does this work?
 				var str = 2;
@@ -164,8 +164,7 @@ var cards = (function() {
 	}
 
 	return {
-		//max_id: Object.keys(card_list).length-1,
-		max_id: 6,
+		max_id: Object.keys(card_list).length-1,
 		land_min_id: 0,
 		land_max_id: 4,
 		getCard: getCard,

@@ -82,7 +82,7 @@ var resources = (function() {
 
 		if (res.value == 'half') {
 			operation = function(val) {
-				return val / 2;
+				return Math.floor(val / 2);
 			}
 		}
 

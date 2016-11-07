@@ -68,6 +68,7 @@ var battlefield = (function() {
 
 	function setEncounter(enc) {
 		encounter = enc;
+		encounter.time_left = enc.time_limit;
 
 		Mediator.emit('render');
 	}

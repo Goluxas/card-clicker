@@ -29,11 +29,11 @@ var Deck = {
 	},
 	bindEvents: function() {
 		// Bind DOM events
-		Mediator.bind(this.$deck, 'click', 'drawRequest', 'drawRequestApproved');
+		Mediator.bind(this.$deck, 'click', 'drawCard');
 
 		// Bind Mediator events
 		Mediator.on('render', this.render.bind(this));
-		Mediator.on('drawRequestApproved', this.drawCard.bind(this));
+		Mediator.on('drawCard', this.drawCard.bind(this));
 		Mediator.on('addCards', this.addCards.bind(this));
 	},
 
