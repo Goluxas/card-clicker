@@ -30,11 +30,11 @@
 			<div>
 				<script id='encounter-template' type='text/template'>
 					<h3>{{enc.name}}</h3>
-					Condition: {{enc.condition}}<br />
+					Condition: {{enc.description.condition}}<br />
 					{{#ticks}}X {{/ticks}}<br />
 					<br />
-					Reward: {{enc.reward}}<br />
-					Penalty: {{enc.penalty}}<br />
+					Reward: {{enc.description.reward}}<br />
+					Penalty: {{enc.description.penalty}}<br />
 				</script>
 			</div>
 			<h3>Army</h3>

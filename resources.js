@@ -24,7 +24,9 @@ var resources = (function() {
 	
 	// bind Events
 	Mediator.on('render', render);
-	Mediator.on('drewResource', addResource);
+	Mediator.on('drewResource', drewResource);
+	Mediator.on('addResource', addResource);
+	Mediator.on('removeResource', removeResource);
 	Mediator.on('checkCost', checkCost);
 	Mediator.on('tap', tap);
 
@@ -46,7 +48,7 @@ var resources = (function() {
 		$land_list.html( Mustache.render(land_template, {land: land_display}) );
 	}
 
-	function addResource(res) {
+	function drewResource(res) {
 		var color = '';
 
 		if (res == 'Island') {
@@ -63,6 +65,30 @@ var resources = (function() {
 
 		lands[color] += 1;
 		mana[color] += 1;
+
+		Mediator.emit('render');
+	}
+
+	function addResource(res) {
+		if (res == 'mountain') {
+			lands['red'] += 1;
+		}
+
+		Mediator.emit('render');
+	}
+
+	function removeResource(res) {
+		var operation = null;
+
+		if (res.value == 'half') {
+			operation = function(val) {
+				return val / 2;
+			}
+		}
+
+		if (res.type == 'red') {
+			mana['red'] = operation(mana['red']);
+		}
 
 		Mediator.emit('render');
 	}
@@ -113,10 +139,15 @@ var resources = (function() {
 		}
 	}
 
-	function tap() {
-		Object.keys(lands).forEach(function(key) {
-			mana[key] += lands[key];
-		});
+	function tap(res) {
+		// if nothing is specified, tap everything
+		if (res == null) {
+			Object.keys(lands).forEach(function(key) {
+				mana[key] += lands[key];
+			});
+		} else if (res == 'mountains') {
+			mana['red'] += lands['red'];
+		}
 
 		Mediator.emit('render');
 	}
