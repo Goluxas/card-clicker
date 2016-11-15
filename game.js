@@ -1,6 +1,8 @@
 var Game = (function(){
-
-	var deck = Deck.create({size: 20});
+	// This class is becoming progressively less useful
+	// I think its coordinating functions are mostly handled
+	// by the Mediator.
+	// Keeping it for now in case it becomes relevant again.
 
 	// cache DOM
 	

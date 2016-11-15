@@ -1,93 +1,82 @@
 // Handles the deck, shuffling, drawing cards, displaying faceup card
-var Deck = {
-	size: 0,
-	decklist: [], // All cards in the deck, regardless of state (in deck, in hand, drawn, discarded, etc)
-	deckstate: [], // All remaining cards in the deck, in shuffled order
-	faceupCard: -1, // Cards are tracked by a number representing the card id
+var deck = (function() {
 
-	create: function(values) {
-		var instance = Object.create(this);
-		Object.keys(values).forEach(function(key) {
-			instance[key] = values[key];
-		});
-		instance.init();
-		return instance;
-	},
-	init: function() {
-		this.cacheDom();
-		this.bindEvents();
+	var size = 20;
+	var decklist = []; // All cards in the deck, regardless of state (in deck, in hand, drawn, discarded, etc)
+	var deckstate = []; // All remaining cards in the deck, in shuffled order
+	var faceupCard = -1; // Cards are tracked by a number representing the card id
 
-		this.fillDeck();
-		this.shuffleDeck();
-	},
-	cacheDom: function() {
-		this.$el = $("#deck-module");
-		this.$deck = this.$el.find('#deck');
-		this.$faceup = this.$el.find('#faceup');
+	// Cache DOM
+	$el = $("#deck-module");
+	$deck = $el.find('#deck');
+	$faceup = $el.find('#faceup');
 
-		this.decktemplate = this.$deck.find('#deck-template').html();;
-	},
-	bindEvents: function() {
-		// Bind DOM events
-		Mediator.bind(this.$deck, 'click', 'drawCard');
+	decktemplate = $deck.find('#deck-template').html();;
 
-		// Bind Mediator events
-		Mediator.on('render', this.render.bind(this));
-		Mediator.on('drawCard', this.drawCard.bind(this));
-		Mediator.on('addCards', this.addCards.bind(this));
-	},
+	// Bind Events
+	// Bind DOM events
+	Mediator.bind($deck, 'click', 'drawCard');
 
-	render: function() {
+	// Bind Mediator events
+	Mediator.on('render', render);
+	Mediator.on('drawCard', drawCard);
+	Mediator.on('addCards', addCards);
+
+	fillDeck();
+	shuffleDeck();
+
+	function render() {
 		// Render the deck
-		this.$deck.html( Mustache.render(this.decktemplate, {decksize: this.deckstate.length}) );
+		$deck.html( Mustache.render(decktemplate, {decksize: deckstate.length}) );
 		
 		// Only render the faceup card if there is one
-		if (this.faceupCard != -1) {
-			cardname = cards.getCard(this.faceupCard).name;
-			this.$faceup.text(cardname);
+		if (faceupCard != -1) {
+			cardname = cards.getCard(faceupCard).name;
+			$faceup.text(cardname);
 		}
-	},
+	}
 
 	// gives a number between [min] and [max-1] inclusive
-	getRandomInt: function(min, max) {
+	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
-	},
+	}
 
-	fillDeck: function() {
-		this.decklist = [];
-		for (var i=0; i < this.size; i++) {
-			this.decklist.push( this.getRandomInt(0, cards.max_id+1) );
+	function fillDeck() {
+		decklist = [];
+		for (var i=0; i < size; i++) {
+			decklist.push( getRandomInt(0, cards.max_id+1) );
 		}
-		this.deckstate = this.decklist.slice(0); // clone the decklist to the deckstate
-	},
+		deckstate = decklist.slice(0); // clone the decklist to the deckstate
+	}
 
-	shuffleDeck: function() {
-		var counter = this.deckstate.length;
+	function shuffleDeck() {
+		var counter = deckstate.length;
 
 		while (counter > 0) {
 			var i = Math.floor(Math.random() * counter);
 
 			counter--;
 
-			var temp = this.deckstate[counter];
-			this.deckstate[counter] = this.deckstate[i];
-			this.deckstate[i] = temp;
+			var temp = deckstate[counter];
+			deckstate[counter] = deckstate[i];
+			deckstate[i] = temp;
 		}
-	},
+	}
 
-	drawCard: function() {
+	function drawCard() {
 		// shift() is the same as pop() but removes from the front of the list
-		var card = this.deckstate.shift();
+		var card = deckstate.shift();
 		if (card !== undefined) {
-			this.faceupCard = card;
-			Mediator.emit('drewCard', this.faceupCard);
+			faceupCard = card;
+			Mediator.emit('drewCard', faceupCard);
 		}
 		Mediator.emit('render');
-	},
+	}
 
-	addCards: function(new_cards) {
-		this.deckstate = this.deckstate.concat(new_cards);
-		this.shuffleDeck();
+	function addCards(new_cards) {
+		deckstate = deckstate.concat(new_cards);
+		shuffleDeck();
 		Mediator.emit('render');
-	},
-};
+	}
+
+})();
