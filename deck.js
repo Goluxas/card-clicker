@@ -6,6 +6,9 @@ var deck = (function() {
 	var deckstate = []; // All remaining cards in the deck, in shuffled order
 	var faceupCard = -1; // Cards are tracked by a number representing the card id
 
+	var TO_PREPARE = 10; // number of cards to keep in the nextcards list
+	var nextcards = [];
+
 	// Cache DOM
 	$el = $("#deck-module");
 	$deck = $el.find('#deck');
@@ -22,12 +25,11 @@ var deck = (function() {
 	Mediator.on('drawCard', drawCard);
 	Mediator.on('addCards', addCards);
 
-	fillDeck();
-	shuffleDeck();
+	prepareCards();
 
 	function render() {
 		// Render the deck
-		$deck.html( Mustache.render(decktemplate, {decksize: deckstate.length}) );
+		$deck.html( Mustache.render(decktemplate, {}) );
 		
 		// Only render the faceup card if there is one
 		if (faceupCard != -1) {
@@ -41,6 +43,20 @@ var deck = (function() {
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
 
+	function prepareCards() {
+		nextcards = [];
+		for (var i=0; i < TO_PREPARE; i++) {
+			var attempts = 0;
+			// avoid putting in the same card twice, but let it slide if we've tried 3 times
+			do {
+				next = getRandomInt(0, cards.max_id+1);
+				attempts += 1;
+			} while ($.inArray(next, nextcards) && attempts < 3);
+			nextcards.push( next );
+		}
+	}
+
+	// deprecated
 	function fillDeck() {
 		decklist = [];
 		for (var i=0; i < size; i++) {
@@ -49,6 +65,7 @@ var deck = (function() {
 		deckstate = decklist.slice(0); // clone the decklist to the deckstate
 	}
 
+	// deprecated
 	function shuffleDeck() {
 		var counter = deckstate.length;
 
@@ -65,11 +82,15 @@ var deck = (function() {
 
 	function drawCard() {
 		// shift() is the same as pop() but removes from the front of the list
-		var card = deckstate.shift();
-		if (card !== undefined) {
-			faceupCard = card;
-			Mediator.emit('drewCard', faceupCard);
+		var card = nextcards.shift();
+		faceupCard = card;
+		Mediator.emit('drewCard', faceupCard);
+		
+		// if we've drawn the last of the prepared cards, prepare some new ones
+		if (nextcards.length == 0) {
+			prepareCards();
 		}
+
 		Mediator.emit('render');
 	}
 
