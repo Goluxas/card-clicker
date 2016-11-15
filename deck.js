@@ -54,6 +54,8 @@ var deck = (function() {
 			} while ($.inArray(next, nextcards) && attempts < 3);
 			nextcards.push( next );
 		}
+
+		Mediator.emit('log', 'New draw set: ' + nextcards);
 	}
 
 	// deprecated
@@ -84,6 +86,8 @@ var deck = (function() {
 		// shift() is the same as pop() but removes from the front of the list
 		var card = nextcards.shift();
 		faceupCard = card;
+
+		Mediator.emit('log', 'Drew ' + cards.getCard(faceupCard).name);
 		Mediator.emit('drewCard', faceupCard);
 		
 		// if we've drawn the last of the prepared cards, prepare some new ones

@@ -68,6 +68,7 @@ var cards = (function() {
 		onCast: function() {
 			Mediator.emit('removeFromHand', this.id);
 			Mediator.emit('addToArmy', this.id);
+			Mediator.emit('log', 'Played ' + this.name);
 			Mediator.emit('render');
 		}
 	});
@@ -131,10 +132,12 @@ var cards = (function() {
 				}
 			},
 			onSuccess: function() {
+				Mediator.emit('log', 'Passed Encounter (Mountain Lion)');
 				Mediator.emit('addResource', 'mountain');
 				Mediator.emit('tap', 'mountains');
 			},
 			onFailure: function() {
+				Mediator.emit('log', 'Failed Encounter (Mountain Lion)');
 				Mediator.emit('removeResource', {type: 'red', value: 'half'});
 			},
 		},

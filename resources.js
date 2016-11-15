@@ -66,6 +66,7 @@ var resources = (function() {
 		lands[color] += 1;
 		mana[color] += 1;
 
+		Mediator.emit('log', 'Increased to ' + lands[color] + ' ' + color + ' lands, ' + mana[color] + ' mana in pool');
 		Mediator.emit('render');
 	}
 
@@ -86,10 +87,17 @@ var resources = (function() {
 			}
 		}
 
+		var oldVal = 0;
+		var newVal = 0;
 		if (res.type == 'red') {
+			oldVal = mana['red'];
+			newVal = operation(mana['red']);
+
 			mana['red'] = operation(mana['red']);
 		}
 
+		var diff = newVal - oldVal;
+		Mediator.emit('log', res.type + ' mana: ' + diff);
 		Mediator.emit('render');
 	}
 	
@@ -141,14 +149,18 @@ var resources = (function() {
 
 	function tap(res) {
 		// if nothing is specified, tap everything
+		var log_message = 'Tapping for ';
 		if (res == null) {
 			Object.keys(lands).forEach(function(key) {
 				mana[key] += lands[key];
+				log_message += key + ': ' + lands[key] + ' ';
 			});
 		} else if (res == 'mountains') {
 			mana['red'] += lands['red'];
+			log_message += 'Red: ' + lands['red'];
 		}
 
+		Mediator.emit('log', log_message);
 		Mediator.emit('render');
 	}
 
